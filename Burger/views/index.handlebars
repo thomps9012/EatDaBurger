@@ -35,14 +35,14 @@
 <!--Create form here
 hint 1: This form will go insider a container and a row
 hint 2:  <form action="/burgers/create" method="POST">-->
-<h2>Add a burger</h2>
-<form class="create-form">
+<h2>Add A Burger Option</h2>
 
-  <div class="form-group">
-    <label for="bur">Burger Name:</label>
-    <input type="text" id="bur" name="name">
+<div class="row">
+  <div class="col s12">
+    <form action="/burgers" method="POST">
+      <input type="text" id="name" name="burger_name" placeholder="Uber Delicious Burger">
+      <button type="submit" class="addBurgerButton">Add The Burger</button>
+    </form>
   </div>
-
-  <button type="submit">Add Burger</button>
-</form>
+</div>
 				
