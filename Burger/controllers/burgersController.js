@@ -10,46 +10,34 @@ router.get("/", function(req, res) {
 
 router.get("/burgers", function(req, res) {
   //hint: burger.all
-  burger.all(function(data){
-    var hbsObject = {
-      burgers: data
-    };
-    console.log(hbsObject);
-    res.render("index", hbsObject);
+  burger.all(function(burgerData){
+    res.render("index", {
+      burger_data: burgerData
+    });
   });
 });
 
 // post route -> back to index
   //hint: burger.create
-  router.post("/", function(req, res) {
-    burger.create([
-      "type", "chili"
-    ], [
-      req.body.type, req.body.chili
-    ], function(result) {
-      // Send back the ID of the new quote
-      res.json({ id: result.insertId });
+  router.post("/burgers/create", function(req, res) {
+    burger.create(req.body.burger_name, function(result){
+      console.log(result);
+      res.redirect("/");
     });
   });
 
 // put route -> back to index
   //hint: burger.update()
-  router.put("/", function(req, res) {
-    var condition = "id = " + req.params.id;
-  
-    console.log("condition", condition);
-  
-    burger.update({
-      chili: req.body.chili
-    }, condition, function(result) {
-      if (result.changedRows == 0) {
-        // If no rows were changed, then the ID must not exist, so 404
-        return res.status(404).end();
-      } else {
-        res.status(200).end();
-      }
+  router.put("/burgers/:id", function(req, res) {
+    burger.update(req.params.id, function(result) {
+        // wrapper for orm.js that using MySQL update callback will return a log to console,
+        // render back to index with handle
+        console.log(result);
+        // Send back response and let page reload from .then in Ajax
+        res.sendStatus(200);
     });
-  });
+});
+
 
 
 module.exports = router;
