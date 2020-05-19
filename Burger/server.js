@@ -1,4 +1,5 @@
 var express = require("express");
+var bodyParser = require("body-parser");
 
 var PORT = process.env.PORT || 8000;
 var app = express();
@@ -7,14 +8,16 @@ var app = express();
 app.use(express.static("public"));
 
 // Parse application body
-app.use(express.urlencoded({ extended: true }));
-app.use(express.json());
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.json());
 
+// Set Handlebars
 var exphbs = require("express-handlebars");
 
 app.engine("handlebars", exphbs({ defaultLayout: "main" }));
 app.set("view engine", "handlebars");
 
+// Import routes and give the server access
 var routes = require("./controllers/burgersController.js");
 
 app.use(routes);
